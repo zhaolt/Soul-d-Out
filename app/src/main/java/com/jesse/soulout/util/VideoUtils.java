@@ -86,4 +86,6 @@ public class VideoUtils {
         }
         return false;
     }
+
+    public static native int getVideoRotation(String filePath);
 }
