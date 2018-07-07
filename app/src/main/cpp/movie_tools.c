@@ -1,20 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
 #ifdef ANDROID
 #include <jni.h>
 #include <android/log.h>
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-
-#define LOGV(format, ...) __android_log_print(ANDROID_LOG_VERBOSE, "movie_tools", format, ##__VA_ARGS__)
-#define LOGD(format, ...)  __android_log_print(ANDROID_LOG_DEBUG,  "movie_tools", format, ##__VA_ARGS__)
-#define LOGI(format, ...)  __android_log_print(ANDROID_LOG_INFO,  "movie_tools", format, ##__VA_ARGS__)
-#define LOGW(format, ...)  __android_log_print(ANDROID_LOG_WARN,  "movie_tools", format, ##__VA_ARGS__)
-#define LOGE(format, ...)  __android_log_print(ANDROID_LOG_ERROR,  "movie_tools", format, ##__VA_ARGS__)
-#else
-#define LOGV(format, ...) printf("movie_tools" format "\n", ##__VA_ARGS__)
-#defibe LOGE(format, ...) printf("movie_tools" format "\n", ##__VA_ARGS__)
-#endif
+#include "common.h"
 
 jint Java_com_jesse_soulout_util_VideoUtils_getVideoRotation(JNIEnv* env, jclass jobj, jstring filePath) {
     char* file_path = (*env)->GetStringUTFChars(env, filePath, NULL);
