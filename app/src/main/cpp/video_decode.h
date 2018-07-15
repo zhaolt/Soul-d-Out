@@ -9,6 +9,7 @@
 #include "libswscale/swscale.h"
 #include "libavutil/imgutils.h"
 
-int init_avdecoder();
+int init_264decoder();
 int decode264(uint8_t* h264_data, int data_len, uint8_t* yuv420);
-int decodeUrl(JNIEnv* env, jobject jobj, jstring url);
+int decode_url(JNIEnv* env, jobject jobj, jstring url);
+void sendData2Java(uint8_t *deData, int dataLen, JNIEnv *env, jobject jobj);

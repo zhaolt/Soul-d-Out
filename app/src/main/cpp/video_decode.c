@@ -12,6 +12,7 @@ typedef  struct _VideoDec {
     struct SwsContext *pSwsCtx;
     AVCodec *pCodec;
     AVFormatContext *pFormatCtx;
+    AVDictionaryEntry *pTag;
 } VideoDec;
 VideoDec *decoder = NULL;
 
@@ -22,7 +23,7 @@ void pgm_save2(unsigned char *buf, int wrap, int xsize, int ysize, uint8_t *pDat
     }
 }
 
-int init_avdecoder() {
+int init_264decoder() {
     if (init_flag == 1) {
         sws_freeContext(decoder->pSwsCtx);
         av_packet_unref(&(decoder->packet));
@@ -85,4 +86,129 @@ int decode264(uint8_t* h264_data, int data_len, uint8_t* yuv420) {
         receive_ret = 1;
     }
     return receive_ret;
+}
+
+int decode_url(JNIEnv* env, jobject jobj, jstring url) {
+    int i, video_index;
+    int ret, got_pic;
+    int frame_cnt;
+    char input_str[500] = {0};
+    char info[500] = {0};
+    sprintf(input_str, "%s", (*env)->GetStringUTFChars(env, url, NULL));
+    avcodec_register_all();
+    avformat_network_init();
+    VideoDec *pDec = (VideoDec *) av_mallocz(sizeof(VideoDec));
+    pDec->pFormatCtx = avformat_alloc_context();
+    if (avformat_open_input(&(pDec->pFormatCtx), input_str
+            /*"rtmp://live.hkstv.hk.lxdns.com/live/hks"*/, NULL, NULL) != 0) {
+        LOGE("Couldn't open input stream.\n");
+        return -1;
+    }
+    if (avformat_find_stream_info(pDec->pFormatCtx, NULL) < 0) {
+        LOGE("Couldn't find stream information\n");
+        return -1;
+    }
+
+    video_index = -1;
+    for (i = 0; i < pDec->pFormatCtx->nb_streams; i++) {
+        if (pDec->pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
+            video_index = i;
+            break;
+        }
+    }
+    if (video_index == -1) {
+        LOGE("Couldn't find a video stream.\n");
+        return -1;
+    }
+    pDec->pCodecCtx = pDec->pFormatCtx->streams[video_index]->codec;
+    pDec->pCodec = avcodec_find_decoder(pDec->pCodecCtx->codec_id);
+    if (pDec->pCodec == NULL) {
+        LOGE("Couldn't find Codec.\n");
+        return -1;
+    }
+    if (avcodec_open2(pDec->pCodecCtx, pDec->pCodec, NULL) < 0) {
+        LOGE("Couldn't open codec.\n");
+        return -1;
+    }
+    int dataLen = pDec->pCodecCtx->width * pDec->pCodecCtx->height +
+                  (pDec->pCodecCtx->width * pDec->pCodecCtx->height / 2);
+    uint8_t *deData = malloc(dataLen);
+    pDec->pFrame = av_frame_alloc();
+    pDec->pFrameYUV = av_frame_alloc();
+    av_image_fill_arrays(pDec->pFrameYUV->data, pDec->pFrameYUV->linesize, deData,
+                         AV_PIX_FMT_YUV420P, pDec->pCodecCtx->width, pDec->pCodecCtx->height, 1);
+
+    av_init_packet(&(pDec->packet));
+
+    pDec->pSwsCtx = sws_getContext(pDec->pCodecCtx->width, pDec->pCodecCtx->height,
+                                   pDec->pCodecCtx->pix_fmt, pDec->pCodecCtx->width,
+                                   pDec->pCodecCtx->height, AV_PIX_FMT_YUV420P, SWS_BICUBIC,
+                                   NULL, NULL, NULL);
+
+    sprintf(info, "[Input     ]%s\n", input_str);
+    sprintf(info, "%s[Format    ]%s\n", info, pDec->pFormatCtx->iformat->name);
+    sprintf(info, "%s[Codec     ]%s\n", info, pDec->pCodecCtx->codec->name);
+    sprintf(info, "%s[Resolution]%dx%d\n", info, pDec->pCodecCtx->width, pDec->pCodecCtx->height);
+    frame_cnt = 0;
+
+    while (av_read_frame(pDec->pFormatCtx, &(pDec->packet)) >= 0) {
+        if (pDec->packet.stream_index == video_index) {
+            ret = avcodec_decode_video2(pDec->pCodecCtx, pDec->pFrame, &got_pic,
+                                        &(pDec->packet));
+            if (ret < 0) {
+                LOGE("Decode Error.\n");
+                return -1;
+            }
+            if (got_pic) {
+                sws_scale(pDec->pSwsCtx, (const uint8_t *const *) pDec->pFrame->data,
+                          pDec->pFrame->linesize, 0, pDec->pCodecCtx->height, pDec->pFrameYUV->data,
+                          pDec->pFrameYUV->linesize);
+                char pictype_str[10] = {0};
+                pgm_save2(pDec->pFrame->data[0],
+                          pDec->pFrame->linesize[0], pDec->pFrame->width, pDec->pFrame->height,
+                          deData);
+                pgm_save2(pDec->pFrame->data[1],
+                          pDec->pFrame->linesize[1],
+                          pDec->pFrame->width / 2,
+                          pDec->pFrame->height / 2,
+                          deData + pDec->pFrame->width * pDec->pFrame->height);
+                pgm_save2(pDec->pFrame->data[2],
+                          pDec->pFrame->linesize[2],
+                          pDec->pFrame->width / 2,
+                          pDec->pFrame->height / 2,
+                          deData + pDec->pFrame->width * pDec->pFrame->height * 5 / 4);
+
+                switch (pDec->pFrame->pict_type) {
+                    case AV_PICTURE_TYPE_I:
+                        sprintf(pictype_str, "I");
+                        break;
+                    case AV_PICTURE_TYPE_P:
+                        sprintf(pictype_str, "P");
+                        break;
+                    case AV_PICTURE_TYPE_B:
+                        sprintf(pictype_str, "B");
+                        break;
+                    default:
+                        sprintf(pictype_str, "Other");
+                        break;
+                }
+                LOGI("Frame Index: %5d. Type:%s", frame_cnt, pictype_str);
+                sendData2Java(deData, dataLen, env, jobj);
+                frame_cnt++;
+            }
+        }
+    }
+    free(deData);
+    return 2;
+}
+
+void sendData2Java(uint8_t *deData, int dataLen, JNIEnv *env, jobject jobj) {
+    jclass jclazz = (*env)->GetObjectClass(env, jobj);
+    jmethodID jmethodid = (*env)->GetMethodID(env, jclazz, "sendData2Java", "([B)V");
+    jbyte *jbyteDeData = (jbyte *) deData;
+    jbyteArray outData = (*env)->NewByteArray(env, dataLen);
+    (*env)->SetByteArrayRegion(env, outData, 0, dataLen, jbyteDeData);
+    (*env)->CallVoidMethod(env, jobj, jmethodid, outData);
+    (*env)->DeleteLocalRef(env, outData);
+    (*env)->DeleteLocalRef(env, jclazz);
 }

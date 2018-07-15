@@ -28,6 +28,8 @@ public class SoulView extends GLSurfaceView implements GLSurfaceView.Renderer, I
 
     private Queue<byte[]> mVideoDataQueue;
 
+    private int mFps;
+
     public SoulView(Context context) {
         this(context, null);
     }
@@ -59,22 +61,24 @@ public class SoulView extends GLSurfaceView implements GLSurfaceView.Renderer, I
         if (null == data) {
             return;
         }
-
+        mImage.putYUV420PData(data);
+        mGLPaint.onDraw(mImage);
     }
 
     @Override
     public void offer(byte[] data) {
-
+        mVideoDataQueue.offer(data);
     }
 
     @Override
     public byte[] poll() {
-        return new byte[0];
+        return mVideoDataQueue.poll();
     }
 
     @Override
     public void setVideoParameters(int width, int height, int fps) {
-
+        mImage.initSize(width, height);
+        mFps = fps;
     }
 
     @Override

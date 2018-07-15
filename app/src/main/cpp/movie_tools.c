@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#ifdef ANDROID
-#include <jni.h>
-#include <android/log.h>
+#include "video_decode.h"
 #include "common.h"
 
 jint Java_com_jesse_soulout_util_VideoUtils_getVideoRotation(JNIEnv* env, jclass jobj, jstring filePath) {
@@ -45,4 +39,8 @@ jint Java_com_jesse_soulout_util_VideoUtils_getVideoRotation(JNIEnv* env, jclass
     }
     avformat_free_context(pFormatCtx);
     return angle;
+}
+
+jint Java_com_jesse_soulout_codec_VideoCodec_decodeVideo(JNIEnv* env, jobject jobj, jstring url) {
+    return decode_url(env, jobj, url);
 }
