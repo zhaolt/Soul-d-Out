@@ -90,7 +90,7 @@ public class GLPaint {
 
     public void onSurfaceCreated(Context context) {
         String vertexPath = "vertex.glsl";
-        String fragmentPath = "fragment_oes.glsl";
+        String fragmentPath = "fragment.glsl";
         mProgram = createProgram(
                 AssetsUtils.getAssetsContents(context, vertexPath),
                 AssetsUtils.getAssetsContents(context, fragmentPath));

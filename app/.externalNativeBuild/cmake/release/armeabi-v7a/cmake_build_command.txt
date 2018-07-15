@@ -1,0 +1,15 @@
+Executable : /Users/zhaoliangtai/Downloads/android-sdk-macosx/cmake/3.6.4111459/bin/cmake
+arguments : 
+-H/Users/zhaoliangtai/AndroidStudioProjects/Soul-d-Out/app
+-B/Users/zhaoliangtai/AndroidStudioProjects/Soul-d-Out/app/.externalNativeBuild/cmake/release/armeabi-v7a
+-GAndroid Gradle - Ninja
+-DANDROID_ABI=armeabi-v7a
+-DANDROID_NDK=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/Users/zhaoliangtai/AndroidStudioProjects/Soul-d-Out/app/build/intermediates/cmake/release/obj/armeabi-v7a
+-DCMAKE_BUILD_TYPE=Release
+-DCMAKE_MAKE_PROGRAM=/Users/zhaoliangtai/Downloads/android-sdk-macosx/cmake/3.6.4111459/bin/ninja
+-DCMAKE_TOOLCHAIN_FILE=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/build/cmake/android.toolchain.cmake
+-DANDROID_PLATFORM=android-16
+-DCMAKE_CXX_FLAGS=
+jvmArgs : 
+
