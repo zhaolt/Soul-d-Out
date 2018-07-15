@@ -30,18 +30,16 @@ public class VideoUtils {
             boolean found = false;
             for (int j = 0; j < types.length && !found; j++) {
                 if (types[j].equals(mime)) {
-                    Log.d(TAG, "find decoder name : " + info.getName());
+                    String codecName = info.getName();
+                    Log.d(TAG, "find decoder name : " + codecName);
                     int[] colorFormats = info.getCapabilitiesForType(mime).colorFormats;
-                    StringBuilder sb = new StringBuilder();
                     for (int k = 0; k < colorFormats.length; k++) {
-                        sb.append(Integer.toHexString(colorFormats[k]));
-                        sb.append(", ");
+                        if (colorFormats[k] == MediaCodecInfo.CodecCapabilities
+                                .COLOR_FormatYUV420Flexible) {
+                            Log.d(TAG, "codec " + codecName + " is support color format yuv420p");
+                            return true;
+                        }
                     }
-                    if (sb.length() > 0) {
-                        sb.insert(0, "[");
-                        sb.replace(sb.lastIndexOf(","), sb.length(), "]");
-                    }
-                    Log.d(TAG, "support color : " + sb.toString());
                     return true;
                 }
             }
@@ -65,19 +63,16 @@ public class VideoUtils {
             for (int j = 0; j < types.length && !found; j++) {
                 if (types[j].equals(mime)) {
                     codecInfos[i].getCapabilitiesForType(mime);
-                    Log.d(TAG, "find decoder name : " + codecInfos[i].getName());
+                    String codecName = codecInfos[i].getName();
+                    Log.d(TAG, "find decoder name : " + codecName);
                     int[] colorFormats = codecInfos[i].getCapabilitiesForType(mime).colorFormats;
-                    StringBuilder sb = new StringBuilder();
                     for (int k = 0; k < colorFormats.length; k++) {
-                        sb.append(Integer.toHexString(colorFormats[k]));
-                        sb.append(", ");
+                        if (colorFormats[k] == MediaCodecInfo.CodecCapabilities
+                                .COLOR_FormatYUV420Flexible) {
+                            Log.d(TAG, "codec " + codecName + " is support color format yuv420p");
+                            return true;
+                        }
                     }
-                    if (sb.length() > 0) {
-                        sb.insert(0, "[");
-                        sb.replace(sb.lastIndexOf(","), sb.length(), "]");
-                    }
-                    Log.d(TAG, "support color : " + sb.toString());
-                    return true;
                 }
             }
             if (!found) {

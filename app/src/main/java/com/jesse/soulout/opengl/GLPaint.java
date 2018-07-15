@@ -69,12 +69,12 @@ public class GLPaint {
 
 
     public GLPaint() {
-        mVertexBuffer = ByteBuffer.allocate(VERTEX.length * FLOAT_SIZE)
+        mVertexBuffer = ByteBuffer.allocateDirect(VERTEX.length * FLOAT_SIZE)
                 .order(ByteOrder.nativeOrder())
                 .asFloatBuffer()
                 .put(VERTEX);
         mVertexBuffer.position(0);
-        mCoordBuffer = ByteBuffer.allocate(TEXTURE_COORDS.length * FLOAT_SIZE)
+        mCoordBuffer = ByteBuffer.allocateDirect(TEXTURE_COORDS.length * FLOAT_SIZE)
                 .order(ByteOrder.nativeOrder())
                 .asFloatBuffer()
                 .put(TEXTURE_COORDS);
