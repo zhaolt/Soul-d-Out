@@ -1,5 +1,7 @@
 package com.jesse.soulout.opengl;
 
+import android.util.Log;
+
 import java.nio.ByteBuffer;
 
 /**
@@ -15,7 +17,7 @@ public class GLImage {
     private ByteBuffer mY;
     private ByteBuffer mU;
     private ByteBuffer mV;
-    private boolean hasImage;
+    private boolean hasImage = false;
 
     /**
      * 这里的数据只接收yuv420p 所以数据长度的计算方式也是按照yuv420p
@@ -34,7 +36,9 @@ public class GLImage {
 
     public void putYUV420PData(byte[] data) {
         System.arraycopy(data, 0, mY.array(), 0, mYLen);
+        Log.d("GLImage", "y data len : " + mYLen);
         System.arraycopy(data, mYLen, mU.array(), 0, mUVLen);
+        Log.d("GLImage", "uv data len : " + mUVLen);
         System.arraycopy(data, mYLen + mUVLen, mV.array(), 0, mUVLen);
         update(mY.array(), mU.array(), mV.array());
     }
@@ -45,7 +49,12 @@ public class GLImage {
             mY.put(yData, 0, yData.length);
             mU.put(uData, 0, uData.length);
             mV.put(vData, 0, vData.length);
+            hasImage = true;
         }
+    }
+
+    public boolean hasImage() {
+        return hasImage;
     }
 
     private void clearCache() {

@@ -1,6 +1,7 @@
 package com.jesse.soulout.codec;
 
 import android.media.MediaCodec;
+import android.media.MediaCodecInfo;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.os.Handler;
@@ -90,6 +91,8 @@ public class VideoDecoderWrapper {
 
         if (mimeType.contains("video/")) {
             videoCodec = MediaCodec.createDecoderByType(mimeType);
+            trackFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities
+                    .COLOR_FormatYUV420Planar);
             videoCodec.configure(trackFormat, surface, null,  0);
         }
 

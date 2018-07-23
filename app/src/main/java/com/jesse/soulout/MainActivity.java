@@ -10,17 +10,27 @@ import com.jesse.soulout.widget.SoulView;
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
+
+    static {
+        System.loadLibrary("movie_tools");
+        System.loadLibrary("ffmpeg");
+    }
     private SoulView mSoulView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSoulView = (SoulView) findViewById(R.id.soul_view);
-        VideoCodec videoCodec = new VideoCodec();
+        final VideoCodec videoCodec = new VideoCodec();
         videoCodec.setDisplay(mSoulView);
         String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator
-                + "DCIM/Camera/VID_20180715_212741.mp4";
+                + "DCIM/Camera/temp_uuid_2ca1950396b8219c788bc8c85bdb87fb.mp4";
         videoCodec.setDataSource(filePath);
-        videoCodec.start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                videoCodec.start();
+            }
+        }).start();
     }
 }

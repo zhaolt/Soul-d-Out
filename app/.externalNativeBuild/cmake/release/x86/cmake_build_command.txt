@@ -1,0 +1,15 @@
+Executable : /Users/zhaoliangtai/Downloads/android-sdk-macosx/cmake/3.6.3155560/bin/cmake
+arguments : 
+-H/Users/zhaoliangtai/AndroidMD/SoulOut/app
+-B/Users/zhaoliangtai/AndroidMD/SoulOut/app/.externalNativeBuild/cmake/release/x86
+-GAndroid Gradle - Ninja
+-DANDROID_ABI=x86
+-DANDROID_NDK=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/Users/zhaoliangtai/AndroidMD/SoulOut/app/build/intermediates/cmake/release/obj/x86
+-DCMAKE_BUILD_TYPE=Release
+-DCMAKE_MAKE_PROGRAM=/Users/zhaoliangtai/Downloads/android-sdk-macosx/cmake/3.6.3155560/bin/ninja
+-DCMAKE_TOOLCHAIN_FILE=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/build/cmake/android.toolchain.cmake
+-DANDROID_PLATFORM=android-16
+-DCMAKE_CXX_FLAGS=
+jvmArgs : 
+

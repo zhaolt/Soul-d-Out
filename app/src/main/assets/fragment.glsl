@@ -15,5 +15,4 @@ void main() {
     rgb.g = y - 0.344 * u - 0.714 * v;
     rgb.b = y + 1.770 * u;
     gl_FragColor = vec4(rgb, alpha);
-
 }

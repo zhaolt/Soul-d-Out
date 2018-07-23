@@ -17,12 +17,7 @@ android {
         }
 
         ndk {
-            abiFilters 'armeabi-v7a', 'x86'
-        }
-    }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['src/main/cpp']
+            abiFilters 'armeabi-v7a'
         }
     }
     buildTypes {
