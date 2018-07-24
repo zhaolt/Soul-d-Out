@@ -35,7 +35,7 @@ public class VideoUtils {
                     int[] colorFormats = info.getCapabilitiesForType(mime).colorFormats;
                     for (int k = 0; k < colorFormats.length; k++) {
                         if (colorFormats[k] == MediaCodecInfo.CodecCapabilities
-                                .COLOR_FormatYUV420Flexible) {
+                                .COLOR_FormatYUV420Planar) {
                             Log.d(TAG, "codec " + codecName + " is support color format yuv420p");
                             return true;
                         }
@@ -68,7 +68,7 @@ public class VideoUtils {
                     int[] colorFormats = codecInfos[i].getCapabilitiesForType(mime).colorFormats;
                     for (int k = 0; k < colorFormats.length; k++) {
                         if (colorFormats[k] == MediaCodecInfo.CodecCapabilities
-                                .COLOR_FormatYUV420Flexible) {
+                                .COLOR_FormatYUV420Planar) {
                             Log.d(TAG, "codec " + codecName + " is support color format yuv420p");
                             return true;
                         }
@@ -82,5 +82,5 @@ public class VideoUtils {
         return false;
     }
 
-    public static native int getVideoRotation(String filePath);
+    public static native int getVideoRotation(String path);
 }

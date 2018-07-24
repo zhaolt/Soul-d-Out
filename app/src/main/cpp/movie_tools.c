@@ -8,12 +8,12 @@ jint Java_com_jesse_soulout_util_VideoUtils_getVideoRotation(JNIEnv* env, jclass
     avcodec_register_all();
     AVFormatContext *pFormatCtx = avformat_alloc_context();
     // 2.打开文件
-    if (!avformat_open_input(&pFormatCtx, file_path, NULL, NULL)) {
+    if (avformat_open_input(&pFormatCtx, file_path, NULL, NULL) != 0) {
         LOGE("%s", "无法打开视频文件");
         return -1;
     }
     // 3.
-    if (!avformat_find_stream_info(pFormatCtx, NULL)) {
+    if (avformat_find_stream_info(pFormatCtx, NULL) != 0) {
         LOGE("%s", "无法获取视频文件信息");
         return -2;
     }

@@ -3,6 +3,7 @@ package com.jesse.soulout.widget;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.jesse.soulout.opengl.GLImage;
 import com.jesse.soulout.opengl.GLPaint;
@@ -39,7 +40,7 @@ public class SoulView extends GLSurfaceView implements GLSurfaceView.Renderer, I
         setEGLContextClientVersion(2);
         setRenderer(this);
         // 连续模式 大概没16ms刷新一次
-        setRenderMode(RENDERMODE_CONTINUOUSLY);
+        setRenderMode(RENDERMODE_WHEN_DIRTY);
         mVideoDataQueue = new ArrayDeque<>();
         mGLPaint = new GLPaint();
         mImage = new GLImage();
@@ -61,17 +62,26 @@ public class SoulView extends GLSurfaceView implements GLSurfaceView.Renderer, I
         if (null == data) {
             return;
         }
+        Log.d(TAG, "onDrawFrame data len : " + data.length);
         mImage.putYUV420PData(data);
+        if (!mImage.hasImage()) {
+            return;
+        }
+        mGLPaint.clearSurface();
         mGLPaint.onDraw(mImage);
+        mGLPaint.onDrawSoul(data);
     }
 
     @Override
     public void offer(byte[] data) {
         mVideoDataQueue.offer(data);
+        Log.d(TAG, "queue size : " + mVideoDataQueue.size());
+        requestRender();
     }
 
     @Override
     public byte[] poll() {
+        Log.d(TAG, "poll queue size : " + mVideoDataQueue.size());
         return mVideoDataQueue.poll();
     }
 
@@ -79,6 +89,7 @@ public class SoulView extends GLSurfaceView implements GLSurfaceView.Renderer, I
     public void setVideoParameters(int width, int height, int fps) {
         mImage.initSize(width, height);
         mFps = fps;
+        mGLPaint.setVideoParamters(width, height, fps);
     }
 
     @Override

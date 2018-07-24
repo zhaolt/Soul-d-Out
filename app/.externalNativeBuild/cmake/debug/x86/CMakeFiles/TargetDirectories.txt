@@ -1,0 +1,3 @@
+/Users/zhaoliangtai/AndroidMD/SoulOut/app/.externalNativeBuild/cmake/debug/x86/CMakeFiles/edit_cache.dir
+/Users/zhaoliangtai/AndroidMD/SoulOut/app/.externalNativeBuild/cmake/debug/x86/CMakeFiles/rebuild_cache.dir
+/Users/zhaoliangtai/AndroidMD/SoulOut/app/.externalNativeBuild/cmake/debug/x86/CMakeFiles/movie_tools.dir

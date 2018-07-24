@@ -1,0 +1,12 @@
+# ninja log v5
+4	919	0	CMakeFiles/movie_tools.dir/src/main/cpp/video_decode.c.o	80c30e719cf65fe7
+5	919	0	CMakeFiles/movie_tools.dir/src/main/cpp/movie_tools.c.o	18a3b16600875a5e
+919	1105	0	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libmovie_tools.so	18842bdf946d034d
+1	740	0	CMakeFiles/movie_tools.dir/src/main/cpp/movie_tools.c.o	18a3b16600875a5e
+741	882	0	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libmovie_tools.so	18842bdf946d034d
+0	113	0	CMakeFiles/movie_tools.dir/src/main/cpp/movie_tools.c.o	18a3b16600875a5e
+113	150	0	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libmovie_tools.so	18842bdf946d034d
+0	209	0	CMakeFiles/movie_tools.dir/src/main/cpp/movie_tools.c.o	18a3b16600875a5e
+209	294	0	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libmovie_tools.so	18842bdf946d034d
+1	191	0	CMakeFiles/movie_tools.dir/src/main/cpp/movie_tools.c.o	18a3b16600875a5e
+191	224	0	../../../../build/intermediates/cmake/debug/obj/armeabi-v7a/libmovie_tools.so	18842bdf946d034d

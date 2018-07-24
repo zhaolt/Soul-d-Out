@@ -85,8 +85,9 @@ public class VideoCodec implements VideoDecoderWrapper.OutputSampleListener {
                     isSupportHWDecode = VideoUtils.findHWDecoderByType(mimeType);
                 }
                 if (isSupportHWDecode) {
-                    mVideoDecoderWrapper.fromVideoFormat(mediaFormat, null);
-                    mVideoDecoderWrapper.setOutputSampleListener(this);
+                    mVideoDecoderWrapper = VideoDecoderWrapper.fromVideoFormat(mediaFormat, null);
+                    if (null != mVideoDecoderWrapper)
+                        mVideoDecoderWrapper.setOutputSampleListener(this);
                 }
             }
         } catch (IOException e) {
@@ -95,57 +96,58 @@ public class VideoCodec implements VideoDecoderWrapper.OutputSampleListener {
     }
 
     public void start() {
-        if (isSupportHWDecode && null != mVideoDecoderWrapper) {
-            mTimeAnimator.setTimeListener(new TimeAnimator.TimeListener() {
-                @Override
-                public void onTimeUpdate(TimeAnimator animation, long totalTime, long deltaTime) {
-                    Log.e(TAG, "animation->totalTime: " + totalTime + ", deltaTime: " + deltaTime);
-                    boolean isEos = ((mMediaExtractor.getSampleFlags() & MediaCodec
-                            .BUFFER_FLAG_END_OF_STREAM) == MediaCodec.BUFFER_FLAG_END_OF_STREAM);
-
-
-                    if (!isEos) {
-                        boolean result = mVideoDecoderWrapper.writeSample(mMediaExtractor, false,
-                                mMediaExtractor.getSampleTime(), mMediaExtractor.getSampleFlags());
-
-                        if (result) {
-                            mMediaExtractor.advance();
-                        }
-                    }
-
-
-                    MediaCodec.BufferInfo out_bufferInfo = new MediaCodec.BufferInfo();
-                    mVideoDecoderWrapper.peekSample(out_bufferInfo);
-
-
-                    if (out_bufferInfo.size <= 0 && isEos) {
-                        mTimeAnimator.end();
-                        mVideoDecoderWrapper.stopAndRelease();
-                        mMediaExtractor.release();
-                    } else if (out_bufferInfo.presentationTimeUs / 1000 < totalTime) {
-                        mVideoDecoderWrapper.popSample(false);
-                    }
-                }
-            });
-            mTimeAnimator.start();
-        } else {
-            decodeVideo(mFilePath);
-        }
+//        if (isSupportHWDecode && null != mVideoDecoderWrapper) {
+//            mTimeAnimator.setTimeListener(new TimeAnimator.TimeListener() {
+//                @Override
+//                public void onTimeUpdate(TimeAnimator animation, long totalTime, long deltaTime) {
+//                    Log.e(TAG, "animation->totalTime: " + totalTime + ", deltaTime: " + deltaTime);
+//                    boolean isEos = ((mMediaExtractor.getSampleFlags() & MediaCodec
+//                            .BUFFER_FLAG_END_OF_STREAM) == MediaCodec.BUFFER_FLAG_END_OF_STREAM);
+//
+//
+//                    if (!isEos) {
+//                        boolean result = mVideoDecoderWrapper.writeSample(mMediaExtractor, false,
+//                                mMediaExtractor.getSampleTime(), mMediaExtractor.getSampleFlags());
+//
+//                        if (result) {
+//                            mMediaExtractor.advance();
+//                        }
+//                    }
+//
+//
+//                    MediaCodec.BufferInfo out_bufferInfo = new MediaCodec.BufferInfo();
+//                    mVideoDecoderWrapper.peekSample(out_bufferInfo);
+//
+//
+//                    if (out_bufferInfo.size <= 0 && isEos) {
+//                        mTimeAnimator.end();
+//                        mVideoDecoderWrapper.stopAndRelease();
+//                        mMediaExtractor.release();
+//                    } else if (out_bufferInfo.presentationTimeUs / 1000 < totalTime) {
+//                        mVideoDecoderWrapper.popSample(false);
+//                    }
+//                }
+//            });
+//            mTimeAnimator.start();
+//        } else {
+//            decodeVideo(mFilePath);
+//        }
+        decodeVideo(mFilePath);
     }
 
 
     public void sendData2Java(byte[] data) {
-        Log.e(TAG, "sendData2Java");
+        Log.d(TAG, "sendData2Java data len : " + data.length);
         mDisplay.offer(data);
     }
 
 
     private native int decodeVideo(String url);
-
     @Override
     public void outputSample(VideoDecoderWrapper sender, MediaCodec.BufferInfo info, ByteBuffer buffer) {
         byte[] data = new byte[info.size];
         buffer.get(data);
+        Log.d(TAG, "outputSample data len : " + data.length);
         mDisplay.offer(data);
     }
 }

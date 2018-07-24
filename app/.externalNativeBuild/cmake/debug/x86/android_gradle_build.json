@@ -1,0 +1,52 @@
+
+{
+	"buildFiles" : [ "/Users/zhaoliangtai/AndroidMD/SoulOut/app/CMakeLists.txt" ],
+	"cFileExtensions" : [ "c" ],
+	"cleanCommands" : 
+	[
+		"/Users/zhaoliangtai/Downloads/android-sdk-macosx/cmake/3.6.3155560/bin/cmake --build /Users/zhaoliangtai/AndroidMD/SoulOut/app/.externalNativeBuild/cmake/debug/x86 --target clean"
+	],
+	"libraries" : 
+	{
+		"ffmpeg-Debug-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "ffmpeg",
+			"buildType" : "debug",
+			"output" : "/Users/zhaoliangtai/AndroidMD/SoulOut/app/src/main/jniLibs/armeabi-v7a/libffmpeg.so",
+			"toolchain" : "18255409467292569209"
+		},
+		"movie_tools-Debug-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "movie_tools",
+			"buildCommand" : "/Users/zhaoliangtai/Downloads/android-sdk-macosx/cmake/3.6.3155560/bin/cmake --build /Users/zhaoliangtai/AndroidMD/SoulOut/app/.externalNativeBuild/cmake/debug/x86 --target movie_tools",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=i686-none-linux-android --gcc-toolchain=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/toolchains/x86-4.9/prebuilt/darwin-x86_64 --sysroot=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/platforms/android-16/arch-x86 -Dmovie_tools_EXPORTS -I../../../../src/main/cpp/include  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -Wa,--noexecstack -Wformat -Werror=format-security -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -Wa,--noexecstack -Wformat -Werror=format-security  -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info  -fPIC      -c ",
+					"src" : "/Users/zhaoliangtai/AndroidMD/SoulOut/app/src/main/cpp/video_decode.c",
+					"workingDirectory" : "/Users/zhaoliangtai/AndroidMD/SoulOut/app/.externalNativeBuild/cmake/debug/x86"
+				},
+				
+				{
+					"flags" : "  --target=i686-none-linux-android --gcc-toolchain=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/toolchains/x86-4.9/prebuilt/darwin-x86_64 --sysroot=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/platforms/android-16/arch-x86 -Dmovie_tools_EXPORTS -I../../../../src/main/cpp/include  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -Wa,--noexecstack -Wformat -Werror=format-security -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -Wa,--noexecstack -Wformat -Werror=format-security  -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info  -fPIC      -c ",
+					"src" : "/Users/zhaoliangtai/AndroidMD/SoulOut/app/src/main/cpp/movie_tools.c",
+					"workingDirectory" : "/Users/zhaoliangtai/AndroidMD/SoulOut/app/.externalNativeBuild/cmake/debug/x86"
+				}
+			],
+			"output" : "/Users/zhaoliangtai/AndroidMD/SoulOut/app/build/intermediates/cmake/debug/obj/x86/libmovie_tools.so",
+			"toolchain" : "18255409467292569209"
+		}
+	},
+	"toolchains" : 
+	{
+		"18255409467292569209" : 
+		{
+			"cCompilerExecutable" : "/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
+			"cppCompilerExecutable" : "/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+		}
+	}
+}
