@@ -25,7 +25,7 @@ rule CUSTOM_COMMAND
 rule C_COMPILER__movie_tools
   depfile = $DEP_FILE
   deps = gcc
-  command = /Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang  --target=armv7-none-linux-androideabi --gcc-toolchain=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64 --sysroot=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/platforms/android-16/arch-arm $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out   -c $IN_ABS
+  command = /Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang  --target=armv7-none-linux-androideabi --gcc-toolchain=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64 --sysroot=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/sysroot $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out   -c $IN_ABS
   description = Building C object $out
 
 
@@ -33,7 +33,7 @@ rule C_COMPILER__movie_tools
 # Rule for linking C shared library.
 
 rule C_SHARED_LIBRARY_LINKER__movie_tools
-  command = $PRE_LINK && /Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang  --target=armv7-none-linux-androideabi --gcc-toolchain=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64 --sysroot=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/platforms/android-16/arch-arm -fPIC $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -shared $SONAME_FLAG$SONAME -o $TARGET_FILE $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
+  command = $PRE_LINK && /Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang  --target=armv7-none-linux-androideabi --gcc-toolchain=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64 --sysroot=/Users/zhaoliangtai/Downloads/android-sdk-macosx/ndk-bundle/sysroot -fPIC $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -shared $SONAME_FLAG$SONAME -o $TARGET_FILE $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
   description = Linking C shared library $TARGET_FILE
   restat = $RESTAT
 
@@ -42,7 +42,7 @@ rule C_SHARED_LIBRARY_LINKER__movie_tools
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /Users/zhaoliangtai/Downloads/android-sdk-macosx/cmake/3.6.3155560/bin/cmake -H/Users/zhaoliangtai/AndroidMD/SoulOut/app -B/Users/zhaoliangtai/AndroidMD/SoulOut/app/.externalNativeBuild/cmake/debug/armeabi-v7a
+  command = /Users/zhaoliangtai/Downloads/android-sdk-macosx/cmake/3.6.4111459/bin/cmake -H/Users/zhaoliangtai/AndroidStudioProjects/Soul-d-Out/app -B/Users/zhaoliangtai/AndroidStudioProjects/Soul-d-Out/app/.externalNativeBuild/cmake/debug/armeabi-v7a
   description = Re-running CMake...
   generator = 1
 
@@ -51,7 +51,7 @@ rule RERUN_CMAKE
 # Rule for cleaning all built files.
 
 rule CLEAN
-  command = /Users/zhaoliangtai/Downloads/android-sdk-macosx/cmake/3.6.3155560/bin/ninja -t clean
+  command = /Users/zhaoliangtai/Downloads/android-sdk-macosx/cmake/3.6.4111459/bin/ninja -t clean
   description = Cleaning all built files...
 
 
@@ -59,6 +59,6 @@ rule CLEAN
 # Rule for printing all primary targets available.
 
 rule HELP
-  command = /Users/zhaoliangtai/Downloads/android-sdk-macosx/cmake/3.6.3155560/bin/ninja -t targets
+  command = /Users/zhaoliangtai/Downloads/android-sdk-macosx/cmake/3.6.4111459/bin/ninja -t targets
   description = All primary targets available:
 

@@ -101,9 +101,10 @@ public class VideoCodec implements VideoDecoderWrapper.OutputSampleListener {
 //                @Override
 //                public void onTimeUpdate(TimeAnimator animation, long totalTime, long deltaTime) {
 //                    Log.e(TAG, "animation->totalTime: " + totalTime + ", deltaTime: " + deltaTime);
-//                    boolean isEos = ((mMediaExtractor.getSampleFlags() & MediaCodec
-//                            .BUFFER_FLAG_END_OF_STREAM) == MediaCodec.BUFFER_FLAG_END_OF_STREAM);
-//
+//                    @SuppressLint("WrongConstant")
+//                    boolean isEos = ((mMediaExtractor.getSampleFlags()
+//                            & MediaCodec.BUFFER_FLAG_END_OF_STREAM)
+//                            == MediaCodec.BUFFER_FLAG_END_OF_STREAM);
 //
 //                    if (!isEos) {
 //                        boolean result = mVideoDecoderWrapper.writeSample(mMediaExtractor, false,
@@ -130,9 +131,20 @@ public class VideoCodec implements VideoDecoderWrapper.OutputSampleListener {
 //            });
 //            mTimeAnimator.start();
 //        } else {
-//            decodeVideo(mFilePath);
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    decodeVideo(mFilePath);
+//                }
+//            }).start();
 //        }
-        decodeVideo(mFilePath);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                decodeVideo(mFilePath);
+            }
+        }).start();
+
     }
 
 
@@ -141,8 +153,19 @@ public class VideoCodec implements VideoDecoderWrapper.OutputSampleListener {
         mDisplay.offer(data);
     }
 
+    private void onDecodeEOS() {
+        // TODO: 2018/7/24 解码结束底层回调
+    }
 
-    private native int decodeVideo(String url);
+
+    private native void decodeVideo(String url);
+
+    private native void initDecoder(String url);
+
+    private native void startDecode();
+
+    private native void getVideoRealData(byte[] outData);
+
     @Override
     public void outputSample(VideoDecoderWrapper sender, MediaCodec.BufferInfo info, ByteBuffer buffer) {
         byte[] data = new byte[info.size];

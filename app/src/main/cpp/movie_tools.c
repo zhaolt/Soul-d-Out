@@ -1,8 +1,8 @@
 #include "video_decode.h"
-#include "common.h"
 
-jint Java_com_jesse_soulout_util_VideoUtils_getVideoRotation(JNIEnv* env, jclass jobj, jstring filePath) {
-    char* file_path = (*env)->GetStringUTFChars(env, filePath, NULL);
+jint Java_com_jesse_soulout_util_VideoUtils_getVideoRotation(JNIEnv *env, jclass jobj,
+                                                             jstring filePath) {
+    char *file_path = (*env)->GetStringUTFChars(env, filePath, NULL);
     LOGI("file_path: %s", file_path);
     // 1.初始化
     avcodec_register_all();
@@ -41,6 +41,27 @@ jint Java_com_jesse_soulout_util_VideoUtils_getVideoRotation(JNIEnv* env, jclass
     return angle;
 }
 
-jint Java_com_jesse_soulout_codec_VideoCodec_decodeVideo(JNIEnv* env, jobject jobj, jstring url) {
-    return decode_url(env, jobj, url);
+void Java_com_jesse_soulout_codec_VideoCodec_decodeVideo(JNIEnv *env, jobject jobj, jstring url) {
+    decode_url(env, jobj, url);
+}
+
+void Java_com_jesse_soulout_codec_VideoCodec_initDecoder(JNIEnv *env, jobject jobj, jstring jUrl) {
+    char* url = (*env)->GetStringUTFChars(env, jUrl, NULL);
+    init_decoder(url);
+}
+
+void Java_com_jesse_soulout_codec_VideoCodec_startDecode(JNIEnv *env, jobject jobj) {
+    pthread_t tid;
+    if (pthread_create(&tid, NULL, (void *) decode, NULL) != 0) {
+        LOGE("To thread failed\n");
+        exit(0);
+    }
+    if (pthread_join(tid, NULL) != 0) {
+        LOGE("Thread join error.\n");
+        exit(0);
+    }
+}
+
+void Java_com_jesse_soulout_codec_VideoCodec_getVideoRealData(JNIEnv *env, jobject jobj, jbyteArray outBuffer) {
+
 }

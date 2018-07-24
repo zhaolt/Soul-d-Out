@@ -17,7 +17,7 @@ add_library( # Sets the name of the library.
              SHARED
 
              # Provides a relative path to your source file(s).
-             src/main/cpp/video_decode.h
+             src/main/cpp/queue.c
              src/main/cpp/video_decode.c
              src/main/cpp/movie_tools.c )
 
@@ -43,7 +43,9 @@ find_library( # Sets the name of the path variable.
 
               # Specifies the name of the NDK library that
               # you want CMake to locate.
-              log )
+              log
+              opensl
+              OpenSLES)
 
 include_directories(src/main/cpp/include)
 
@@ -56,4 +58,5 @@ target_link_libraries( # Specifies the target library.
                        ffmpeg
                        # Links the target library to the log library
                        # included in the NDK.
-                       ${log-lib} )
+                       ${log-lib}
+                       ${opensl})

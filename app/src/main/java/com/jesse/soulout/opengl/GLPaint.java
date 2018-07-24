@@ -204,6 +204,8 @@ public class GLPaint {
 
 
     private int createProgram(String vertexSource, String fragmentSource) {
+        Log.d(TAG, "vertex shader : " + vertexSource);
+        Log.d(TAG, "fragment shader : " + fragmentSource);
         // 加载顶点着色器代码
         int vertexShader = GLES20.glCreateShader(GLES20.GL_VERTEX_SHADER);
         GLES20.glShaderSource(vertexShader, vertexSource);

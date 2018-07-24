@@ -19,9 +19,9 @@ import javax.microedition.khronos.opengles.GL10;
  * Created by zhaoliangtai on 2018/6/25.
  */
 
-public class SoulView extends GLSurfaceView implements GLSurfaceView.Renderer, ISurface {
+public class GLSoulView extends GLSurfaceView implements GLSurfaceView.Renderer, ISurface {
 
-    private static final String TAG = SoulView.class.getSimpleName();
+    private static final String TAG = GLSoulView.class.getSimpleName();
 
     private GLPaint mGLPaint;
     // 视频数据
@@ -29,17 +29,14 @@ public class SoulView extends GLSurfaceView implements GLSurfaceView.Renderer, I
 
     private Queue<byte[]> mVideoDataQueue;
 
-    private int mFps;
-
-    public SoulView(Context context) {
+    public GLSoulView(Context context) {
         this(context, null);
     }
 
-    public SoulView(Context context, AttributeSet attrs) {
+    public GLSoulView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setEGLContextClientVersion(2);
         setRenderer(this);
-        // 连续模式 大概没16ms刷新一次
         setRenderMode(RENDERMODE_WHEN_DIRTY);
         mVideoDataQueue = new ArrayDeque<>();
         mGLPaint = new GLPaint();
@@ -88,7 +85,6 @@ public class SoulView extends GLSurfaceView implements GLSurfaceView.Renderer, I
     @Override
     public void setVideoParameters(int width, int height, int fps) {
         mImage.initSize(width, height);
-        mFps = fps;
         mGLPaint.setVideoParamters(width, height, fps);
     }
 

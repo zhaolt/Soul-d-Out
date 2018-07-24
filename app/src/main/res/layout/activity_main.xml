@@ -7,9 +7,8 @@
     android:layout_height="match_parent"
     tools:context="com.jesse.soulout.MainActivity">
 
-    <com.jesse.soulout.widget.SoulView
+    <com.jesse.soulout.widget.GLSoulView
         android:id="@+id/soul_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 </FrameLayout>
