@@ -6,6 +6,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <assert.h>
 #ifdef ANDROID
 #include <jni.h>
 #include <android/log.h>

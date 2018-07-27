@@ -1,4 +1,4 @@
-#include "video_decode.h"
+#include "p_player.h"
 
 jint Java_com_jesse_soulout_util_VideoUtils_getVideoRotation(JNIEnv *env, jclass jobj,
                                                              jstring filePath) {
@@ -46,22 +46,55 @@ void Java_com_jesse_soulout_codec_VideoCodec_decodeVideo(JNIEnv *env, jobject jo
 }
 
 void Java_com_jesse_soulout_codec_VideoCodec_initDecoder(JNIEnv *env, jobject jobj, jstring jUrl) {
-    char* url = (*env)->GetStringUTFChars(env, jUrl, NULL);
-    init_decoder(url);
+//    char* url = (*env)->GetStringUTFChars(env, jUrl, NULL);
+//    init_decoder(url);
 }
 
 void Java_com_jesse_soulout_codec_VideoCodec_startDecode(JNIEnv *env, jobject jobj) {
-    pthread_t tid;
-    if (pthread_create(&tid, NULL, (void *) decode, NULL) != 0) {
-        LOGE("To thread failed\n");
-        exit(0);
-    }
-    if (pthread_join(tid, NULL) != 0) {
-        LOGE("Thread join error.\n");
-        exit(0);
-    }
+//    decode();
 }
 
-void Java_com_jesse_soulout_codec_VideoCodec_getVideoRealData(JNIEnv *env, jobject jobj, jbyteArray outBuffer) {
+/**
+ * 这个方法需要java层开线程读取队列视频数据
+ * @param env
+ * @param jobj
+ * @param outBuffer
+ */
+jbyteArray Java_com_jesse_soulout_codec_VideoCodec_getVideoRealData(JNIEnv *env, jobject jobj) {
+//    AVFrame *pFrame = de_queue_pic();
+//    if (pFrame != NULL) {
+//        char pictype_str[10] = {0};
+//        int dataLen = pFrame->width * pFrame->height +
+//                      (pFrame->width * pFrame->height / 2);
+//        uint8_t *out_data = malloc(dataLen);
+//        LOGD("get video data linesize[0] = %d, linesize[1] = %d, linesize[2] = %d\n", pFrame->linesize[0], pFrame->linesize[1], pFrame->linesize[2]);
+//        pgm_save2(pFrame->data[0], pFrame->linesize[0], pFrame->width, pFrame->height, out_data);
+//        pgm_save2(pFrame->data[1], pFrame->linesize[1], pFrame->width / 2, pFrame->height / 2,
+//                  out_data + pFrame->width * pFrame->height);
+//        pgm_save2(pFrame->data[2], pFrame->linesize[2], pFrame->width / 2, pFrame->height / 2,
+//                  out_data + pFrame->width * pFrame->height * 5 / 4);
+//        switch (pFrame->pict_type) {
+//            case AV_PICTURE_TYPE_I:
+//                sprintf(pictype_str, "I");
+//                break;
+//            case AV_PICTURE_TYPE_P:
+//                sprintf(pictype_str, "P");
+//                break;
+//            case AV_PICTURE_TYPE_B:
+//                sprintf(pictype_str, "B");
+//                break;
+//            default:
+//                sprintf(pictype_str, "Other");
+//                break;
+//        }
+//        jbyteArray data = (*env)->NewByteArray(env, dataLen);
+//        (*env)->SetByteArrayRegion(env, data, 0, dataLen, out_data);
+//        return data;
+//    } else {
+//        return NULL;
+//    }
+}
 
+void Java_com_jesse_soulout_codec_VideoCodec_startAudioTask(JNIEnv *env, jobject jobj) {
+//    startAudioThread();
 }

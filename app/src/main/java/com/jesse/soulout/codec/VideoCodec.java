@@ -84,7 +84,7 @@ public class VideoCodec implements VideoDecoderWrapper.OutputSampleListener {
                 } else {
                     isSupportHWDecode = VideoUtils.findHWDecoderByType(mimeType);
                 }
-                if (isSupportHWDecode) {
+                if (isSupportHWDecode && false) {
                     mVideoDecoderWrapper = VideoDecoderWrapper.fromVideoFormat(mediaFormat, null);
                     if (null != mVideoDecoderWrapper)
                         mVideoDecoderWrapper.setOutputSampleListener(this);
@@ -144,7 +144,6 @@ public class VideoCodec implements VideoDecoderWrapper.OutputSampleListener {
                 decodeVideo(mFilePath);
             }
         }).start();
-
     }
 
 
@@ -164,7 +163,9 @@ public class VideoCodec implements VideoDecoderWrapper.OutputSampleListener {
 
     private native void startDecode();
 
-    private native void getVideoRealData(byte[] outData);
+    private native byte[] getVideoRealData();
+
+    private native void startAudioTask();
 
     @Override
     public void outputSample(VideoDecoderWrapper sender, MediaCodec.BufferInfo info, ByteBuffer buffer) {
